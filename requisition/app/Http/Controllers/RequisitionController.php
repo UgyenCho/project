@@ -103,12 +103,13 @@ class RequisitionController extends Controller
                     'item_name'         => $itemName,
                     'item_description'  => $validatedData['item_description'][$index] ?? null,
                     'item_quantity'     => $validatedData['item_quantity'][$index],
-                    'remarks'           => $validatedData['item_remarks'][$index] ?? null,
+                    'item_remarks'      => $validatedData['item_remarks'][$index] ?? null,
                 ]);
             }
 
             // 5. --- COMMIT TRANSACTION ---
             DB::commit();
+            
             // Redirect LRC user back to their dashboard
             return redirect()->route('dashboard')
                              ->with('success', 'Requisition submitted successfully!');
@@ -147,6 +148,8 @@ class RequisitionController extends Controller
         // Ensure view exists: resources/views/user/requisitions/show.blade.php
         return view('user.requisitions.show', compact('requisition'));
     }
+
+    
 
     // ... other methods like approve, reject ...
 

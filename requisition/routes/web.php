@@ -28,7 +28,7 @@ Route::get('/', function () {
 });
 
 // Example public route (uncomment controller import if used)
-Route::get('/aboutus', [AboutPageController::class, 'index'])->name('about.page');
+Route::get('/aboutus', [AboutPageController::class, 'index'])->name('about.page'); // Corrected if used
 
 
 // --- Authenticated Routes ---
@@ -65,6 +65,12 @@ Route::middleware([
         Route::get('/requisitions/{requisition}', [HodDashboardController::class, 'show'])->name('requisitions.show'); // DEFINES the missing route
         Route::patch('/requisitions/{requisition}/approve', [HodDashboardController::class, 'approve'])->name('requisitions.approve');
         Route::patch('/requisitions/{requisition}/reject', [HodDashboardController::class, 'reject'])->name('requisitions.reject');
+
+        // START: Added Route for Updating Quantities
+        Route::patch('/requisitions/{requisition}/update-quantities', [HodDashboardController::class, 'updateQuantities'])
+             ->name('requisitions.updateQuantities');
+        // END: Added Route for Updating Quantities
+
     });
 
 
@@ -79,14 +85,46 @@ Route::middleware([
 
 
     // --- Finance Routes ---
+    // Inside routes/web.php
+
+// ... other use statements ...
+
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+
+    // ... other route groups (home, user, hod, president, admin) ...
+
+    // --- Finance Routes ---
     Route::middleware(['auth', /* 'role:finance' */]) // Add Finance role middleware here!
         ->prefix('finance')
         ->name('finance.')
         ->group(function() {
             Route::get('/dashboard', [FinanceDashboardController::class, 'index'])->name('dashboard');
-             // Add other finance-specific routes (e.g., viewing approved requisitions, budget checks)
+            Route::get('/requisitions/{requisition}', [FinanceDashboardController::class, 'show'])->name('requisitions.show'); // View details
+
+            // ****** ADD THESE TWO LINES ******
+            Route::patch('/requisitions/{requisition}/approve', [FinanceDashboardController::class, 'approve'])->name('requisitions.approve');
+            Route::patch('/requisitions/{requisition}/reject', [FinanceDashboardController::class, 'reject'])->name('requisitions.reject');
+            // *********************************
+
+             // Add other finance-specific routes (e.g., budget checks)
     });
 
+    // ... (admin routes)
+
+}); // End Authenticated Group
+        // ***************************
+
+        // Add routes for Finance approval/rejection later
+        // Route::patch('/requisitions/{requisition}/approve', [FinanceDashboardController::class, 'approve'])->name('requisitions.approve');
+        // Route::patch('/requisitions/{requisition}/reject', [FinanceDashboardController::class, 'reject'])->name('requisitions.reject');
+
+         // Add other finance-specific routes (e.g., budget checks)
+});
 
     // --- Admin Routes ---
     Route::middleware(['auth', /* 'role:admin' */]) // Add Admin role middleware here!
@@ -106,4 +144,3 @@ Route::middleware([
         // Add other admin routes...
     });
 
-}); 

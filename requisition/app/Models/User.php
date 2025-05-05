@@ -14,11 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;   // Added for relationship 
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    // use HasProfilePhoto; // Uncomment if using Jetstream profile photos
-    // use TwoFactorAuthenticatable; // Uncomment if using Fortify two-factor
-
-    // --- Define Role Constants ---
+    use HasApiTokens, HasFactory, Notifiable; // <-- Use the trait
     public const ROLE_LRC = 'LRC';
     public const ROLE_HOD = 'HOD';
     public const ROLE_FINANCE = 'FINANCE';
@@ -39,7 +35,6 @@ class User extends Authenticatable
         'password',
         'department_id', // Add department_id
         'role',          // Add role
-        'employee_id',   // Add employee_id
     ];
 
     /**
@@ -53,7 +48,7 @@ class User extends Authenticatable
         // 'two_factor_recovery_codes', // Uncomment if using Fortify two-factor
         // 'two_factor_secret',      // Uncomment if using Fortify two-factor
     ];
-
+    use HasApiTokens, HasFactory, Notifiable;
     /**
      * The attributes that should be cast.
      *
@@ -64,19 +59,7 @@ class User extends Authenticatable
         'password' => 'hashed', // Use 'hashed' cast for automatic hashing
     ];
 
-    // Uncomment if using Jetstream profile photos
-    // /**
-    //  * The accessors to append to the model's array form.
-    //  *
-    //  * @var array<int, string>
-    //  */
-    // protected $appends = [
-    //     'profile_photo_url',
-    // ];
-
-    /**
-     * Get the department that the user belongs to.
-     */
+    
     public function department(): BelongsTo // Added return type hint
     {
         // Assumes your Department model is App\Models\Department
@@ -91,14 +74,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Requisition::class);
     }
-    // --- End Requisition Relationship ---
-
-
-    // --- Add Role Checking Helper Methods ---
-
-    /**
-     * Check if the user has the LRC role.
-     */
+   
     public function isLrc(): bool
     {
         return $this->role === self::ROLE_LRC;

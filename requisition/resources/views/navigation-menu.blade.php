@@ -6,15 +6,12 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}"> {{-- Or appropriate home route --}}
-
                         {{-- Replace x-application-mark with img tag --}}
                         <img src="{{ asset('images/1.png') }}" {{-- UPDATE path/filename --}}
                             alt="Your Application Logo" {{-- UPDATE alt text --}}
                             class="block h-9 w-auto" {{-- Keep existing classes for sizing --}}
                             />
 
-                    </a>
                 </div>
 
                 <!-- Navigation Links -->

@@ -119,7 +119,7 @@
                     <ul style="margin-top: 10px; padding-left: 20px;"> @foreach ($errors->all() as $error) <li>{{ $error }}</li> @endforeach </ul>
                 </div>
             @endif
-
+         
             {{-- REMOVED: Requisition Form Section --}}
 
             {{-- ====================================================================== --}}
