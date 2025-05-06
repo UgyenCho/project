@@ -154,37 +154,62 @@
                             <label for="req-date">Date:</label>
                             <input type="date" id="req-date" name="requisition_date" required value="{{ old('requisition_date', date('Y-m-d')) }}" max="{{ date('Y-m-d') }}">
                         </div>
+                        {{-- Find this section within the <form id="new-requisition"> ... </form> --}}
+
+                        {{-- Start Replacement Block --}}
                         <div>
                             <label for="req-department-id">Department:</label>
-                            {{-- =========================================== --}}
-                            {{-- == CORRECTED DEPARTMENT SELECT DROPDOWN === --}}
-                            {{-- =========================================== --}}
-                            <select id="req-department-id" name="department_id" required>
-                                <option value="" disabled {{ old('department_id') ? '' : 'selected' }}>-- Select Department --</option>
-                                {{-- Verify these IDs match your 'departments' table or user table IDs --}}
-                                <option value="1" {{ old('department_id') == '1' ? 'selected' : '' }}>Department of Information Technology</option>
-                                <option value="2" {{ old('department_id') == '2' ? 'selected' : '' }}>Department of Civil & Surveying Engineering</option> {{-- Assuming ID 2 = Civil --}}
-                                <option value="3" {{ old('department_id') == '3' ? 'selected' : '' }}>Department of Electrical & Electronics Engineering</option> {{-- Assuming ID 3 = EEE --}}
-                                <option value="4" {{ old('department_id') == '4' ? 'selected' : '' }}>Department of Mechanical Engineering</option> {{-- CORRECTED: DME has value="4" --}}
-                                <option value="5" {{ old('department_id') == '5' ? 'selected' : '' }}>Department of Humanities & Management</option> {{-- CORRECTED: Assuming H&M/DMPM has value="5" --}}
-                                <option value="6" {{ old('department_id') == '6' ? 'selected' : '' }}>Administration</option> {{-- Assuming ID 6 = Admin --}}
-                                <option value="7" {{ old('department_id') == '7' ? 'selected' : '' }}>Examination Cell</option> {{-- Assuming ID 7 = Exam Cell --}}
-                                <option value="8" {{ old('department_id') == '8' ? 'selected' : '' }}>Games and Sports</option> {{-- Assuming ID 8 = Games --}}
-                                <option value="9" {{ old('department_id') == '9' ? 'selected' : '' }}>Central Library</option> {{-- Assuming ID 9 = Library --}}
-                                <option value="10" {{ old('department_id') == '10' ? 'selected' : '' }}>Learning Resource centre (LRC)</option> {{-- Assuming ID 10 = LRC --}}
-                                <option value="11" {{ old('department_id') == '11' ? 'selected' : '' }}>Estate & Maintenance</option> {{-- Assuming ID 11 = Estate --}}
-                                <option value="12" {{ old('department_id') == '12' ? 'selected' : '' }}>Accounts Section</option> {{-- Assuming ID 12 = Accounts --}}
-                                <option value="13" {{ old('department_id') == '13' ? 'selected' : '' }}>Student Affairs</option> {{-- Assuming ID 13 = DSA --}}
-                                <option value="14" {{ old('department_id') == '14' ? 'selected' : '' }}>Research & Innovation</option> {{-- Assuming ID 14 = Research --}}
-                                <option value="99" {{ old('department_id') == '99' ? 'selected' : '' }}>Others</option> {{-- Consistent ID for 'Others' --}}
-                            </select>
-                            @error('department_id')
-                                <span class="text-danger text-sm" style="color:red;">{{ $message }}</span> {{-- Added inline style for visibility --}}
-                            @enderror
-                            {{-- =========================================== --}}
-                            {{-- ===== END DEPARTMENT SELECT CORRECTION ==== --}}
-                            {{-- =========================================== --}}
+
+                            {{-- Check if the logged-in user IS an LRC AND has a department assigned --}}
+                            @if (Auth::check() && Auth::user()->isLrc() && Auth::user()->department_id)
+                                {{-- === This code runs ONLY for LRC users who have a department_id set === --}}
+
+                                {{-- Display the LRC's specific Department Name (read-only) --}}
+                                {{-- *** The inline style attribute has been removed from this input *** --}}
+                                <input type="text"
+                                    id="department-display"
+                                    class="form-control" {{-- Keep your standard form styling class --}}
+                                    value="{{ Auth::user()->department?->name ?? 'Assigned Department' }}"
+                                    readonly {{-- This attribute makes it non-editable --}}
+                                    aria-label="Department (automatically set)">
+
+                                {{-- Hidden field to submit the LRC's actual department ID --}}
+                                <input type="hidden"
+                                    id="req-department-id"
+                                    name="department_id" {{-- Must match the name your Controller expects --}}
+                                    value="{{ Auth::user()->department_id }}"> {{-- Submit the user's actual ID --}}
+
+
+                            @else
+                                {{-- === This code runs for non-LRC users OR LRCs without a department_id === --}}
+                                {{-- Display the original optional dropdown --}}
+                                <select id="req-department-id" name="department_id" required class="form-control">
+                                    <option value="" disabled {{ !old('department_id') ? 'selected' : '' }}>-- Select Department --</option>
+                                    {{-- Paste ALL your original <option> tags here, ensuring values match your departments table --}}
+                                    <option value="1" {{ old('department_id') == '1' ? 'selected' : '' }}>Department of Information Technology</option>
+                                    <option value="2" {{ old('department_id') == '2' ? 'selected' : '' }}>Department of Civil & Surveying Engineering</option>
+                                    <option value="3" {{ old('department_id') == '3' ? 'selected' : '' }}>Department of Electrical & Electronics Engineering</option>
+                                    <option value="4" {{ old('department_id') == '4' ? 'selected' : '' }}>Department of Mechanical Engineering</option>
+                                    <option value="5" {{ old('department_id') == '5' ? 'selected' : '' }}>Department of Humanities & Management</option>
+                                    <option value="6" {{ old('department_id') == '6' ? 'selected' : '' }}>Administration</option>
+                                    <option value="7" {{ old('department_id') == '7' ? 'selected' : '' }}>Examination Cell</option>
+                                    <option value="8" {{ old('department_id') == '8' ? 'selected' : '' }}>Games and Sports</option>
+                                    <option value="9" {{ old('department_id') == '9' ? 'selected' : '' }}>Central Library</option>
+                                    <option value="10" {{ old('department_id') == '10' ? 'selected' : '' }}>Learning Resource centre (LRC)</option>
+                                    <option value="11" {{ old('department_id') == '11' ? 'selected' : '' }}>Estate & Maintenance</option>
+                                    <option value="12" {{ old('department_id') == '12' ? 'selected' : '' }}>Accounts Section</option>
+                                    <option value="13" {{ old('department_id') == '13' ? 'selected' : '' }}>Student Affairs</option>
+                                    <option value="14" {{ old('department_id') == '14' ? 'selected' : '' }}>Research & Innovation</option>
+                                    <option value="99" {{ old('department_id') == '99' ? 'selected' : '' }}>Others</option>
+                                    {{-- End original options --}}
+                                </select>
+                                @error('department_id')
+                                    <span class="text-danger text-sm" style="color:red;">{{ $message }}</span>
+                                @enderror
+                            @endif
                         </div>
+                        {{-- End Replacement Block --}}
+                        {{-- End Replacement Block --}} 
                         <div style="grid-column: 1 / -1;"><label>To: The President</label></div>
                     </div>
                     {{-- ... rest of your form ... --}}

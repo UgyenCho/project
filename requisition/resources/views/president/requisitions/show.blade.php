@@ -14,7 +14,7 @@
 
                     {{-- Back Button --}}
                     <div class="mb-4">
-                        <a href="{{ route('dashboard') }}#form-status" class="inline-flex items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-black uppercase tracking-widest hover:bg-green-400 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+                        <a href="{{ route('president.dashboard') }}#form-status" class="inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                             </svg>
@@ -50,17 +50,17 @@
                     @if($requisition->items && $requisition->items->count() > 0)
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200 border">
-                                <thead class="bg-green-500">
+                                <thead class="bg-gray-100">
                                     <tr>
-                                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r">Sl.</th>
-                                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r">Item Name</th>
+                                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">Sl.</th>
+                                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">Item Name</th>
                                         {{-- Name Corrected Below --}}
-                                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r">Description/Specs</th>
+                                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">Description/Specs</th>
                                         {{-- Name Corrected Below --}}
-                                        <th scope="col" class="px-4 py-2 text-center text-xs font-medium text-black-500 uppercase tracking-wider border-r">Quantity</th>
-                                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-black-500 uppercase tracking-wider">Remarks/Purpose</th>
+                                        <th scope="col" class="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-r">Quantity</th>
+                                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remarks/Purpose</th>
                                         {{-- Optional: Add Issued Qty if needed --}}
-                                        {{-- <th scope="col" class="px-4 py-2 text-center text-xs font-medium text-black-500 uppercase tracking-wider">Issued Qty</th> --}}
+                                        {{-- <th scope="col" class="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Issued Qty</th> --}}
                                     </tr>
                                 </thead>
                                 {{-- ****** MODIFIED SECTION START ****** --}}

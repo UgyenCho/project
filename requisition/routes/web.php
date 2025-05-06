@@ -80,9 +80,15 @@ Route::middleware([
         ->name('president.')
         ->group(function() {
             Route::get('/dashboard', [PresidentDashboardController::class, 'index'])->name('dashboard');
-            // Add other president-specific routes (e.g., viewing reports, final approvals)
-    });
 
+            // *** ADD THESE LINES for President Actions ***
+            Route::get('/requisitions/{requisition}', [PresidentDashboardController::class, 'show'])->name('requisitions.show');
+            Route::patch('/requisitions/{requisition}/approve', [PresidentDashboardController::class, 'approve'])->name('requisitions.approve');
+            Route::patch('/requisitions/{requisition}/reject', [PresidentDashboardController::class, 'reject'])->name('requisitions.reject');
+            // *** END ADDED LINES ***
+
+            // Add other president-specific routes if needed
+    });
 
     // --- Finance Routes ---
     // Inside routes/web.php
@@ -133,7 +139,14 @@ Route::middleware([
         ->group(function () {
 
         Route::get('/dashboard', [AdminDashboardController::class, 'showDashboard'])->name('dashboard');
+// Inside routes/web.php -> admin group
 
+// ... existing admin routes ...
+
+// Admin Requisition Actions
+Route::get('/requisitions/{requisition}', [AdminDashboardController::class, 'showRequisition'])->name('requisitions.show');
+Route::patch('/requisitions/{requisition}/finalize', [AdminDashboardController::class, 'finalizeRequisition'])->name('requisitions.finalize');
+Route::patch('/requisitions/{requisition}/reject', [AdminDashboardController::class, 'rejectRequisition'])->name('requisitions.reject'); // Changed method name slightly
         // User Management Routes (relative names: users.e nable, users.disable etc.)
         Route::patch('/users/{user}/enable', [AdminDashboardController::class, 'enableUser'])->name('users.enable');
         Route::patch('/users/{user}/disable', [AdminDashboardController::class, 'disableUser'])->name('users.disable');

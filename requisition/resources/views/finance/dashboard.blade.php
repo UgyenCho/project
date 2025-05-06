@@ -13,7 +13,7 @@
         /* === Dashboard Container === */
         .dashboard-container { display: flex; width: 100%; max-width: 100%; min-height: calc(100vh - 0rem); /* Adjust as needed */ }
         /* === Sidebar === */
-        .sidebar { width: 250px; background-color: #2c3e50; /* Example Finance Color */ color: #fff; padding: 20px 15px; display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+        .sidebar { width: 250px; background-color:rgb(20, 133, 133); /* Example Finance Color */ color: #fff; padding: 20px 15px; display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
         .sidebar h2 { text-align: center; margin-bottom: 30px; color: #eee; font-size: 1.5em; font-weight: bold; padding-bottom: 15px; border-bottom: 1px solid #34495e; }
         .sidebar ul { list-style: none; flex-grow: 1; padding-left: 0; margin-bottom: 1rem; }
         .sidebar ul li { margin-bottom: 8px; }
@@ -72,7 +72,7 @@
             <ul>
                 {{-- Adjust links based on Finance functionality --}}
                 <li><a href="#" data-target="review-requisitions" class="nav-link active"><i class="fas fa-fw fa-file-invoice-dollar"></i> Review Requisitions</a></li>
-                <li><a href="#" data-target="reports-content" class="nav-link"><i class="fas fa-fw fa-chart-line"></i> Reports</a></li>
+                <li><a href="#" data-target="reports-content" class="nav-link"><i class="fas fa-fw fa-chart-line"></i> Notification</a></li>
                 {{-- Add more Finance links as needed --}}
             </ul>
         </nav>
